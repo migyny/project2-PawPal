@@ -5,7 +5,24 @@
 **a. Initial design**
 
 - Briefly describe your initial UML design.
+  - My initial UML design will have 5 classes: owner, pet, task, scheduler and daily plan. Owner holds reference to pet, and pet has a set of tasks that needs to be done. Scheduler takes owner and pet as input and makes daily plan as output. This way the design will seperate data like owner,pet and task from logic like scheduler and output daily plan, so i can test everything seperately.
 - What classes did you include, and what responsibilities did you assign to each?
+  - I will have 5 classes: owner, pet, task, scheduler and daily plan.
+ Owner: stores owner's name, daily available time and preferences. Owner should also hold a reference to their pets.
+  - Attributes: name, available_minutes, preferences, pets(list)
+  - Methods: add_pet(), get_pets()
+ Pet: stores name, species, age, and a list of tasks.
+  - Attributes: name, species, age, tasks
+  - Methods: add_task(), remove_taks(), get_tasks()
+ Task: task assigned to pet with name and category (walk,feed,sleep, etc.), duration of the task, and optional preferred time of the day.
+  - Attributes: task_id, name, category, duration_minutes, priority, time_of_day
+  - Methods: is_valid()
+ Scheduler: takes owner and pet as input, and it should generate daily plan by sorting tasks by priority nad fitting them to the time the owner is available. 
+  - Attributes: owne, pet
+  - Methods: generate_plan(), sort_by_priority(), _fits_in_time()
+ Daily plan: it is the output of the scheduler. Has the list of sccheduled tasks, skipped tasks, and total time. Also has to give reasoning
+  - Attributes: scheduled, skipped, total_minutes
+  - Methods: summary(), reasoning()
 
 **b. Design changes**
 
