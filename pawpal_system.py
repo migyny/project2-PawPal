@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Optional  # used by Task.time_of_day
+
+TIME_SLOT_ORDER: dict[Optional[str], int] = {"morning": 0, "afternoon": 1, "evening": 2, None: 3}
 
 
 @dataclass
@@ -37,17 +39,18 @@ class Owner:
     name: str
     available_minutes: int
     preferences: list[str] = field(default_factory=list)
-    pets: list[Pet] = field(default_factory=list)
+    pet: Pet = field(default=None)  # always required; set via set_pet()
 
-    def add_pet(self, pet: Pet) -> None:
+    def set_pet(self, pet: Pet) -> None:
         pass
 
-    def get_pets(self) -> list[Pet]:
+    def get_pet(self) -> Pet:
         pass
 
 
 class DailyPlan:
-    def __init__(self):
+    def __init__(self, owner: Owner):
+        self.owner = owner
         self.scheduled: list[Task] = []
         self.skipped: list[Task] = []
         self.total_minutes: int = 0
@@ -60,15 +63,15 @@ class DailyPlan:
 
 
 class Scheduler:
-    def __init__(self, owner: Owner, pet: Pet):
+    def __init__(self, owner: Owner):
         self.owner = owner
-        self.pet = pet
 
     def generate_plan(self) -> DailyPlan:
+        pet = self.owner.get_pet()
         pass
 
     def sort_by_priority(self, tasks: list[Task]) -> list[Task]:
-        pass
+        return sorted(tasks, key=lambda t: (t.priority, TIME_SLOT_ORDER[t.time_of_day]))
 
     def fits_in_time(self, task: Task, time_used: int) -> bool:
-        pass
+        return time_used + task.duration_minutes <= self.owner.available_minutes

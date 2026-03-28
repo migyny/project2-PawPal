@@ -1,14 +1,14 @@
 # PawPal+ UML Class Diagram
 
-```mermaid
+
 classDiagram
     class Owner {
         +String name
         +int available_minutes
         +list preferences
-        +list pets
-        +add_pet(pet)
-        +get_pets()
+        +Pet pet
+        +set_pet(pet)
+        +get_pet()
     }
 
     class Pet {
@@ -17,7 +17,7 @@ classDiagram
         +int age
         +list tasks
         +add_task(task)
-        +remove_task(task)
+        +remove_task(task_id)
         +get_tasks()
     }
 
@@ -33,13 +33,13 @@ classDiagram
 
     class Scheduler {
         +Owner owner
-        +Pet pet
         +generate_plan()
-        +sort_by_priority()
-        +fits_in_time()
+        +sort_by_priority(tasks)
+        +fits_in_time(task, time_used)
     }
 
     class DailyPlan {
+        +Owner owner
         +list scheduled
         +list skipped
         +int total_minutes
@@ -47,9 +47,9 @@ classDiagram
         +reasoning()
     }
 
-    Owner "1" --> "1..*" Pet : owns
+    Owner "1" --> "1" Pet : owns
     Pet "1" o-- "0..*" Task : has
     Scheduler --> Owner : takes
-    Scheduler --> Pet : takes
     Scheduler ..> DailyPlan : produces
-```
+    DailyPlan --> Owner : references
+
