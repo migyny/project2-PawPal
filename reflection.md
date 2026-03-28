@@ -9,27 +9,26 @@
 - What classes did you include, and what responsibilities did you assign to each?
   - I will have 5 classes: owner, pet, task, scheduler and daily plan.
  Owner: stores owner's name, daily available time and preferences. Owner should also hold a reference to their pets.
-  - Attributes: name, available_minutes, preferences, pet
-  - Methods: set_pet(pet), get_pet()
+  - Attributes: name, available_minutes, preferences, pets
+  - Methods: add_pet(pet), get_pets()
  Pet: stores name, species, age, and a list of tasks.
-  - Attributes: name, species, age, tasks
+  - Attributes: name, species, age, tasks, task_count
   - Methods: add_task(task), remove_task(task_id), get_tasks()
  Task: task assigned to pet with name and category (walk,feed,sleep, etc.), duration of the task, and optional preferred time of the day.
-  - Attributes: task_id, name, category, duration_minutes, priority, time_of_day
-  - Methods: is_valid()
+  - Attributes: task_id, name, category, duration_minutes, priority, time_of_day, status
+  - Methods: is_valid(), mark_in_progress(),mark_complete()
  Scheduler: takes owner and pet as input, and it should generate daily plan by sorting tasks by priority nad fitting them to the time the owner is available. 
-  - Attributes: owne, pet
-  - Methods: generate_plan(), sort_by_priority(tasks), _fits_in_time(task,time_used)
+  - Attributes: owne
+  - Methods: generate_plan(pet), sort_by_priority(tasks), _fits_in_time(task,time_used)
  Daily plan: it is the output of the scheduler. Has the list of sccheduled tasks, skipped tasks, and total time. Also has to give reasoning
-  - Attributes: scheduled, skipped, total_minutes, owner
+  - Attributes: scheduled, skipped, total_minutes, owner, pet
   - Methods: summary(), reasoning()
 
 **b. Design changes**
 
 - Did your design change during implementation?
-  - Yes, owner used to have multiple pets, not it should have only one
+  - Yes
 - If yes, describe at least one change and why you made it.
-  - Initially I amde it so that owenr can have multiple pets. I generated UML diagram, and then asked AI to looks for possible logic errors, and AI said that there's no way to generate a combined daily plan across all pets. So i changed my initial UML plan so that owners can have only one pet.
   - In my intial UML plan, sheduler takes both owner and pet, but AI pointed that owner holds pet, and if i leave it like that i can accidentaly put pet that doesn't belong to that owner, so scheduler only needs owner and can call owner.get_pet() internally.
 ---
 
