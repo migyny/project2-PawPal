@@ -37,18 +37,21 @@ classDiagram
 
     class Scheduler {
         +Owner owner
-        +generate_plan(pet)
+        +generate_plan(pet, available)
         +generate_all_plans()
+        +get_tasks_for_pet(pet_name)
         +sort_by_priority(tasks)
-        +fits_in_time(task, time_used)
+        +detect_conflicts()
     }
 
     class DailyPlan {
         +Owner owner
         +Pet pet
+        +int available_minutes
         +list scheduled
         +list skipped
         +int total_minutes
+        +completion_rate()
         +summary()
         +reasoning()
     }
